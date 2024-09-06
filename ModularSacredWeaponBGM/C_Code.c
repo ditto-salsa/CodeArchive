@@ -1,24 +1,25 @@
 #include "C_Code.h" // headers 
 
-#define IsPointer 0x8000000
-
-extern u8 ForceBattleMusicItemTable[];
-extern u8 ForceBattleMusicBGMTable[];
-extern u8 IgnoreForceBattleMusicUnitTable[];
+extern u8 SacredWeaponMusicItemTable[];
+extern u16 SacredWeaponMusicBGMTable[];
+extern u8 IgnoreSacredWeaponMusicUnitTable[];
 extern s16 gBanimFactionPal[2];
 extern s16 gBanimValid[2];
+extern u8 ReverseModeToggle;
+extern u16 ReverseModeFlag;
+extern u16 DancerBGM;
+extern u8 StaffCheckTable[];
+extern u16 StaffBGMTable[];
 
 //smallest function i ever did see, little me
 s16 EkrCheckWeaponSieglindeSiegmund(u16 item)
 {
-    return ForceBattleMusicItemTable[GetItemIndex(item)];
+    return SacredWeaponMusicItemTable[GetItemIndex(item)];
 }
-
-
 
 void EkrPlayMainBGM(void)
 {
-    int ret, songid, songid2, pid, staff_type;
+    int ret, songid, songid2, pid;
     struct BattleUnit * bu, * bul, * bur, ** pbul, ** pbur;
 
     pbul = &gpEkrBattleUnitLeft;
@@ -35,8 +36,42 @@ void EkrPlayMainBGM(void)
 
     gEkrMainBgmPlaying = 1;
 
-    songid = gBanimFactionPal[gEkrInitialHitSide] != 1 ? 0x19 : 0x1A;
+    //per chapter shenanigans
+    if (gBanimFactionPal[gEkrInitialHitSide] == 0){
+        //do player phase stuff
+        songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[3];
+    }
 
+    else if (gBanimFactionPal[gEkrInitialHitSide] == 1){
+        //do enemy phase stuff
+        songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[4];
+    }
+    
+    else {
+        //do npc phase stuff
+        songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[5];
+    }
+
+    if (ReverseModeToggle){
+        if (CheckFlag(ReverseModeFlag)){
+            if (gPlaySt.faction == 0){
+                //do player phase stuff
+                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[3];
+            }
+
+            else if (gPlaySt.faction == 0x80){
+                //do enemy phase stuff
+                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[4];
+            }
+    
+            else {
+                //do npc phase stuff
+                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[5];
+            }
+        }
+    }
+
+   
     if (GetBattleAnimArenaFlag() == 1)
     {
         Sound_SetDefaultMaxNumChannels();
@@ -68,14 +103,14 @@ void EkrPlayMainBGM(void)
         ret = false;
 
     pid = UNIT_CHAR_ID(&bul->unit);
-    if (IgnoreForceBattleMusicUnitTable[pid] == true) {
+    if (IgnoreSacredWeaponMusicUnitTable[pid] == true) {
         ret = false;
     }
 
     //hilariously easy this time actually
     if (ret == true)
     {
-        EfxOverrideBgm(ForceBattleMusicBGMTable[GetItemIndex(bur->weaponBefore)], 0x100);
+        EfxOverrideBgm(SacredWeaponMusicBGMTable[GetItemIndex(bur->weaponBefore)], 0x100);
         return;
     }
 
@@ -104,7 +139,7 @@ void EkrPlayMainBGM(void)
     }
 
     ret = false;
-    if (UNIT_CLASS_ID(&bur->unit) == CLASS_DANCER)
+    if (UNIT_CATTRIBUTES(&bur->unit) & CA_DANCE)
     {
         if (gBattleStats.config & 0x40)
             ret = true;
@@ -115,30 +150,18 @@ void EkrPlayMainBGM(void)
 
     if (ret == true)
     {
-        EfxOverrideBgm(0x20, 0x100);
+        EfxOverrideBgm(DancerBGM, 0x100);
         return;
     }
 
-    if (EfxCheckRetaliation(POS_L) == true)
-        staff_type = EfxCheckStaffType(gBattleActor.weaponBefore);
-    else if (EfxCheckRetaliation(POS_R) == true)
-        staff_type = EfxCheckStaffType(gBattleTarget.weaponBefore);
-    else
-        staff_type = 0;
-
-
-    switch (staff_type) {
-    case 2:
-        songid = 0x22;
-        break;
-
-    case 1:
-        songid = 0x21;
-        break;
-
-    default:
-        break;
+    if (StaffCheckTable[GetItemIndex(bur->weaponBefore)]) {
+        songid = StaffBGMTable[GetItemIndex(bur->weaponBefore)];
     }
+    
+    if (StaffCheckTable[GetItemIndex(bul->weaponBefore)]) {
+        songid = StaffBGMTable[GetItemIndex(bul->weaponBefore)];
+    }
+    
 
     if (songid != -1)
     {

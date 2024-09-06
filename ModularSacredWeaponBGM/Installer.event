@@ -1,30 +1,65 @@
 ALIGN 4
-ForceBattleMusicItemTable:
+SacredWeaponMusicItemTable:
 BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 ALIGN 4
-ForceBattleMusicBGMTable:
+SacredWeaponMusicBGMTable:
 BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#define ForceBattleMusicItemAndBGM(item, song) "PUSH; ORG ForceBattleMusicItemTable + item; BYTE 1; ORG ForceBattleMusicBGMTable + item; BYTE song; POP"
+#define SacredWeaponMusicItemAndBGM(item, song) "PUSH; ORG SacredWeaponMusicItemTable + item; BYTE 1; ORG SacredWeaponMusicBGMTable + item; BYTE song; POP"
 
 ALIGN 4
-IgnoreForceBattleMusicUnitTable:
+IgnoreSacredWeaponMusicUnitTable:
 BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#define IgnoreForceBattleMusicUnit(unit) "PUSH; ORG IgnoreForceBattleMusicUnitTable + unit; BYTE 1; POP"
+#define IgnoreSacredWeaponMusicUnit(unit) "PUSH; ORG IgnoreSacredWeaponMusicUnitTable + unit; BYTE 1; POP"
+
+ALIGN 4
+StaffCheckTable:
+BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+ALIGN 4
+StaffBGMTable:
+BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#define SetStaffBGM(item, song) "PUSH; ORG StaffCheckTable + item; BYTE 1; ORG StaffBGMTable + item; BYTE song; POP"
 
 //
 
-//Edit the stuff here. ForceBattleMusicItemAndBGM takes (item, song) and IgnoreForceBattleMusicUnit takes (unit).
+//Edit stuff here.
 
-//Vanilla Sieglinde/Siegmund
-ForceBattleMusicItemAndBGM(0x85, 0x1F)
-ForceBattleMusicItemAndBGM(0x91, 0x1F)
+//(item, song)
+SacredWeaponMusicItemAndBGM(0xBC, 0x106)
+SacredWeaponMusicItemAndBGM(0xBD, 0x105)
 
-//Vanilla Lyon, Lyon again and Fomortiis
-IgnoreForceBattleMusicUnit(0x40)
-IgnoreForceBattleMusicUnit(0x6C)
-IgnoreForceBattleMusicUnit(0xBE)
+//(unit)
+IgnoreSacredWeaponMusicUnit(0x83)
+IgnoreSacredWeaponMusicUnit(0x6C)
+IgnoreSacredWeaponMusicUnit(0xBE)
 
+//(item, song)
+SetStaffBGM(0x4B, 0xFFFF)
+SetStaffBGM(0x4C, 0x64)
+//And so on...
 
+ALIGN 4
+DancerBGM:
+SHORT 0x20
+
+//#define _REVERSE_MODE_TOGGLE
+//#define ReverseModeFlagID 0xAF
+
+ALIGN 4
+ReverseModeToggle:
+#ifdef _REVERSE_MODE_TOGGLE
+BYTE 1
+#else
+BYTE 0
+#endif
+
+ALIGN 4
+ReverseModeFlag:
+#ifdef _REVERSE_MODE_TOGGLE
+SHORT ReverseModeFlagID
+#else
+SHORT 0
+#endif
 
 #include "C_Code.lyn.event"
