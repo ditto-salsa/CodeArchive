@@ -5,11 +5,13 @@ extern u16 SacredWeaponMusicBGMTable[];
 extern u8 IgnoreSacredWeaponMusicUnitTable[];
 extern s16 gBanimFactionPal[2];
 extern s16 gBanimValid[2];
-extern u8 ReverseModeToggle;
-extern u16 ReverseModeFlag;
 extern u16 DancerBGM;
+extern u16 PromotionBGM;
+extern u16 ArenaBGM;
 extern u8 StaffCheckTable[];
 extern u16 StaffBGMTable[];
+/*extern u8 ReverseModeToggle;
+extern u16 ReverseModeFlag;*/
 
 //smallest function i ever did see, little me
 s16 EkrCheckWeaponSieglindeSiegmund(u16 item)
@@ -19,7 +21,7 @@ s16 EkrCheckWeaponSieglindeSiegmund(u16 item)
 
 void EkrPlayMainBGM(void)
 {
-    int ret, songid, songid2, pid;
+    int ret, songid, songid2, pid, staff_type;
     struct BattleUnit * bu, * bul, * bur, ** pbul, ** pbur;
 
     pbul = &gpEkrBattleUnitLeft;
@@ -36,6 +38,8 @@ void EkrPlayMainBGM(void)
 
     gEkrMainBgmPlaying = 1;
 
+
+    //TODO: Get this working with reverse mode somehow?
     //per chapter shenanigans
     if (gBanimFactionPal[gEkrInitialHitSide] == 0){
         //do player phase stuff
@@ -52,42 +56,25 @@ void EkrPlayMainBGM(void)
         songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[5];
     }
 
-    if (ReverseModeToggle){
-        if (CheckFlag(ReverseModeFlag)){
-            if (gPlaySt.faction == 0){
-                //do player phase stuff
-                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[3];
-            }
 
-            else if (gPlaySt.faction == 0x80){
-                //do enemy phase stuff
-                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[4];
-            }
-    
-            else {
-                //do npc phase stuff
-                songid = GetROMChapterStruct(gPlaySt.chapterIndex)->mapBgmIds[5];
-            }
-        }
-    }
 
    
     if (GetBattleAnimArenaFlag() == 1)
     {
         Sound_SetDefaultMaxNumChannels();
-        EfxOverrideBgm(0x39, 0x100);
+        EfxOverrideBgm(ArenaBGM, 0x100);
         return;
     }
 
     if (GetBanimLinkArenaFlag() == 1)
     {
-        EfxOverrideBgm(0x39, 0x100);
+        EfxOverrideBgm(ArenaBGM, 0x100);
         return;
     }
 
     if (gEkrDistanceType == EKR_DISTANCE_PROMOTION)
     {
-        EfxOverrideBgm(0x23, 0x100);
+        EfxOverrideBgm(PromotionBGM, 0x100);
         return;
     }
 
@@ -154,19 +141,28 @@ void EkrPlayMainBGM(void)
         return;
     }
 
-    if (StaffCheckTable[GetItemIndex(bur->weaponBefore)]) {
-        songid = StaffBGMTable[GetItemIndex(bur->weaponBefore)];
-    }
-    
-    if (StaffCheckTable[GetItemIndex(bul->weaponBefore)]) {
-        songid = StaffBGMTable[GetItemIndex(bul->weaponBefore)];
-    }
-    
+    if (EfxCheckRetaliation(POS_L) == true)
+        staff_type = StaffCheckTable[GetItemIndex(gBattleActor.weaponBefore)];
+    else if (EfxCheckRetaliation(POS_R) == true)
+        staff_type = StaffCheckTable[GetItemIndex(gBattleTarget.weaponBefore)];
+    else
+        staff_type = 0;
 
+    if (staff_type == 1 && EfxCheckRetaliation(POS_L) == true){
+        songid = StaffBGMTable[GetItemIndex(bul->weaponBefore)];
+        return;
+    }
+
+    else if (staff_type == 1 && EfxCheckRetaliation(POS_R) == true){
+        songid = StaffBGMTable[GetItemIndex(bur->weaponBefore)];
+        return;
+    }
+    
     if (songid != -1)
     {
         EfxOverrideBgm(songid, 0x100);
         return;
     }
+
     gEkrMainBgmPlaying = false;
 }

@@ -4,8 +4,8 @@ BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 ALIGN 4
 SacredWeaponMusicBGMTable:
-BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#define SacredWeaponMusicItemAndBGM(item, song) "PUSH; ORG SacredWeaponMusicItemTable + item; BYTE 1; ORG SacredWeaponMusicBGMTable + item; BYTE song; POP"
+SHORT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#define SacredWeaponMusicItemAndBGM(item, song) "PUSH; ORG SacredWeaponMusicItemTable + item; BYTE 1; ORG SacredWeaponMusicBGMTable + (item * 2); SHORT song; POP"
 
 ALIGN 4
 IgnoreSacredWeaponMusicUnitTable:
@@ -18,48 +18,46 @@ BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 ALIGN 4
 StaffBGMTable:
-BYTE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#define SetStaffBGM(item, song) "PUSH; ORG StaffCheckTable + item; BYTE 1; ORG StaffBGMTable + item; BYTE song; POP"
+SHORT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#define SetStaffBGM(item, song) "PUSH; ORG StaffCheckTable + item; BYTE 1; ORG StaffBGMTable + (item * 2); SHORT song; POP"
 
 //
 
 //Edit stuff here.
 
 //(item, song)
-SacredWeaponMusicItemAndBGM(0xBC, 0x106)
-SacredWeaponMusicItemAndBGM(0xBD, 0x105)
+SacredWeaponMusicItemAndBGM(0xDC, 0x15)
+SacredWeaponMusicItemAndBGM(0xDD, 0x16)
 
 //(unit)
-IgnoreSacredWeaponMusicUnit(0x83)
+IgnoreSacredWeaponMusicUnit(0x40)
 IgnoreSacredWeaponMusicUnit(0x6C)
 IgnoreSacredWeaponMusicUnit(0xBE)
 
 //(item, song)
-SetStaffBGM(0x4B, 0xFFFF)
-SetStaffBGM(0x4C, 0x64)
-//And so on...
+SetStaffBGM(0x4B, 0x21)
+SetStaffBGM(0x4C, 0x22)
+SetStaffBGM(0x4D, 0x22)
+SetStaffBGM(0x4E, 0x22)
+SetStaffBGM(0x4F, 0x22)
+SetStaffBGM(0x50, 0x22)
+SetStaffBGM(0x51, 0x21)
+SetStaffBGM(0x52, 0x21)
+SetStaffBGM(0x53, 0x21)
+SetStaffBGM(0x57, 0x22)
+SetStaffBGM(0x59, 0x22)
+SetStaffBGM(0x8C, 0x22)
 
 ALIGN 4
 DancerBGM:
 SHORT 0x20
 
-//#define _REVERSE_MODE_TOGGLE
-//#define ReverseModeFlagID 0xAF
+ALIGN 4
+PromotionBGM:
+SHORT 0x23
 
 ALIGN 4
-ReverseModeToggle:
-#ifdef _REVERSE_MODE_TOGGLE
-BYTE 1
-#else
-BYTE 0
-#endif
-
-ALIGN 4
-ReverseModeFlag:
-#ifdef _REVERSE_MODE_TOGGLE
-SHORT ReverseModeFlagID
-#else
-SHORT 0
-#endif
+ArenaBGM:
+SHORT 0x39
 
 #include "C_Code.lyn.event"
