@@ -1,24 +1,31 @@
 #include "C_Code.h" // headers 
 
-extern u8 SacredWeaponMusicItemTable[];
+// woe, externs be upon ye
 extern u16 SacredWeaponMusicBGMTable[];
 extern u8 IgnoreSacredWeaponMusicUnitTable[];
 extern s16 gBanimFactionPal[2];
 extern s16 gBanimValid[2];
 extern u16 DancerBGM;
+extern u16 BardBGM;
 extern u16 PromotionBGM;
 extern u16 ArenaBGM;
-extern u8 StaffCheckTable[];
 extern u16 StaffBGMTable[];
-/*extern u8 ReverseModeToggle;
-extern u16 ReverseModeFlag;*/
+extern u8 DemonKingMusicSwitchTable_Count;
+extern u8 DemonKingMusicSwitchTable_Unit[];
+extern u16 DemonKingMusicSwitchTable_BGM[];
+extern u16 DemonKingMusicSwitchTable_Flag[];
+
 
 //smallest function i ever did see, little me
+//MIGHT NOT NEED TO REPLACE THIS
+/*
 s16 EkrCheckWeaponSieglindeSiegmund(u16 item)
 {
     return SacredWeaponMusicItemTable[GetItemIndex(item)];
 }
+*/
 
+// why did i do this again?
 void EkrPlayMainBGM(void)
 {
     int ret, songid, songid2, pid, staff_type;
@@ -58,7 +65,7 @@ void EkrPlayMainBGM(void)
 
 
 
-   
+    // ArenaBGM , basically not touched
     if (GetBattleAnimArenaFlag() == 1)
     {
         Sound_SetDefaultMaxNumChannels();
@@ -72,15 +79,17 @@ void EkrPlayMainBGM(void)
         return;
     }
 
+    // PromotionBGM , basically not touched
     if (gEkrDistanceType == EKR_DISTANCE_PROMOTION)
     {
         EfxOverrideBgm(PromotionBGM, 0x100);
         return;
     }
 
+    // SacredWeaponBGM stuff
     //again not too bad? thanks vesly for listening to my stupidness
     ret = false;
-    if (EkrCheckWeaponSieglindeSiegmund(bur->weaponBefore) == true)
+    if (SacredWeaponMusicBGMTable[GetItemIndex(gBattleActor.weaponBefore)] > 0)
         ret = true;
 
     if (!EkrCheckAttackRound(1))
@@ -97,20 +106,24 @@ void EkrPlayMainBGM(void)
     //hilariously easy this time actually
     if (ret == true)
     {
-        EfxOverrideBgm(SacredWeaponMusicBGMTable[GetItemIndex(bur->weaponBefore)], 0x100);
+        EfxOverrideBgm(SacredWeaponMusicBGMTable[GetItemIndex(gBattleActor.weaponBefore)], 0x100);
         return;
     }
 
-    if (pid == CHARACTER_FOMORTIIS)
-    {
-        if (CheckFlag82() == true)
+    //Demon King Music Switch
+    for (int i = 0; i < (DemonKingMusicSwitchTable_Count); i++){
+        if (pid == DemonKingMusicSwitchTable_Unit[i])
         {
-            EfxOverrideBgm(0x55, 0x100);
-            return;
+            if (CheckFlag(DemonKingMusicSwitchTable_Flag[i]) == true)
+            {
+                EfxOverrideBgm(DemonKingMusicSwitchTable_BGM[i], 0x100);
+                return;
+            }
+            SetFlag(DemonKingMusicSwitchTable_Unit[i]);
         }
-        SetFlag82();
     }
 
+    // BossBGM , left untouched.
     songid2 = GetBanimBossBGM(&bul->unit);
 
     if (UNIT_FACTION(GetUnitFromCharId(UNIT_CHAR_ID(&bul->unit))) == FACTION_BLUE)
@@ -125,6 +138,7 @@ void EkrPlayMainBGM(void)
         return;
     }
 
+    // DancerBGM
     ret = false;
     if (UNIT_CATTRIBUTES(&bur->unit) & CA_DANCE)
     {
@@ -133,29 +147,36 @@ void EkrPlayMainBGM(void)
 
         if (gBattleStats.config & 0x200)
             ret = true;
+        
+        if (ret == true)
+        {
+            EfxOverrideBgm(DancerBGM, 0x100);
+            return;
+        }
     }
-
-    if (ret == true)
+    
+    // BardBGM
+    ret = false;
+    if (UNIT_CATTRIBUTES(&bur->unit) & CA_PLAY)
     {
-        EfxOverrideBgm(DancerBGM, 0x100);
-        return;
+        if (gBattleStats.config & 0x40)
+        ret = true;
+
+        if (gBattleStats.config & 0x200)
+        ret = true;
+
+        if (ret == true)
+        {
+            EfxOverrideBgm(BardBGM, 0x100);
+            return;
+        }
     }
 
-    if (EfxCheckRetaliation(POS_L) == true)
-        staff_type = StaffCheckTable[GetItemIndex(gBattleActor.weaponBefore)];
-    else if (EfxCheckRetaliation(POS_R) == true)
-        staff_type = StaffCheckTable[GetItemIndex(gBattleTarget.weaponBefore)];
-    else
-        staff_type = 0;
+    
 
-    if (staff_type == 1 && EfxCheckRetaliation(POS_L) == true){
-        songid = StaffBGMTable[GetItemIndex(bul->weaponBefore)];
-        return;
-    }
-
-    else if (staff_type == 1 && EfxCheckRetaliation(POS_R) == true){
-        songid = StaffBGMTable[GetItemIndex(bur->weaponBefore)];
-        return;
+    // StaffBGM
+    if (GetItemAttributes(gBattleActor.weaponBefore) & IA_STAFF){
+        songid = StaffBGMTable[GetItemIndex(gBattleActor.weaponBefore)];
     }
     
     if (songid != -1)
