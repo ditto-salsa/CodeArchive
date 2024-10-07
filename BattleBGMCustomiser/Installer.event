@@ -3,13 +3,14 @@
 //Edit stuff here.
 
 //SacredWeaponMusicItemAndBGM(item, song)
-SacredWeaponMusicItemAndBGM(0xDC, 0x15)
-SacredWeaponMusicItemAndBGM(0xDD, 0x16)
+SacredWeaponMusicItemAndBGM(0xBC, 0x15)
+SacredWeaponMusicItemAndBGM(0xBD, 0x105)
 
 //IgnoreSacredWeaponMusicUnit(unit)
 IgnoreSacredWeaponMusicUnit(0x40)
 IgnoreSacredWeaponMusicUnit(0x6C)
 IgnoreSacredWeaponMusicUnit(0xBE)
+IgnoreSacredWeaponMusicUnit(0x7D)
 
 //SetStaffBGM(item, song)
 SetStaffBGM(0x4B, 0x21)
@@ -18,18 +19,17 @@ SetStaffBGM(0x4D, 0x22)
 SetStaffBGM(0x4E, 0x22)
 SetStaffBGM(0x4F, 0x22)
 SetStaffBGM(0x50, 0x22)
-//status staves
 SetStaffBGM(0x51, 0x21)
 SetStaffBGM(0x52, 0x21)
 SetStaffBGM(0x53, 0x21)
-//normal staves again
 SetStaffBGM(0x57, 0x22)
 SetStaffBGM(0x59, 0x22)
 SetStaffBGM(0x8C, 0x22)
 
 //DemonKingMusicSwitch(entry, unit, song, flag)
 //There are only 6 entries (0-5) for each table in this, edit "TablesAndMacros.event" if you need more.
-DemonKingMusicSwitch(0, 0xBE, 0x1E, 0x82)
+DemonKingMusicSwitch(0, 0xBE, 0x55, 0x82)
+DemonKingMusicSwitch(1, 0x7D, 0x105, 0x0E)
 
 ALIGN 4
 DancerBGM:
