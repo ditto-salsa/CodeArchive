@@ -28,8 +28,8 @@ s16 EkrCheckWeaponSieglindeSiegmund(u16 item)
 // why did i do this again?
 void EkrPlayMainBGM(void)
 {
-    int ret, songid, songid2, pid, staff_type;
-    struct BattleUnit * bu, * bul, * bur, ** pbul, ** pbur;
+    int ret, songid, songid2, pid;
+    struct BattleUnit * bul, * bur, ** pbul, ** pbur;
 
     pbul = &gpEkrBattleUnitLeft;
     pbur = &gpEkrBattleUnitRight;
@@ -89,7 +89,7 @@ void EkrPlayMainBGM(void)
     // SacredWeaponBGM stuff
     //again not too bad? thanks vesly for listening to my stupidness
     ret = false;
-    if (SacredWeaponMusicBGMTable[GetItemIndex(gBattleActor.weaponBefore)] > 0)
+    if (SacredWeaponMusicBGMTable[GetItemIndex(bur->weaponBefore)] > 0)
         ret = true;
 
     if (!EkrCheckAttackRound(1))
@@ -106,20 +106,21 @@ void EkrPlayMainBGM(void)
     //hilariously easy this time actually
     if (ret == true)
     {
-        EfxOverrideBgm(SacredWeaponMusicBGMTable[GetItemIndex(gBattleActor.weaponBefore)], 0x100);
+        EfxOverrideBgm(SacredWeaponMusicBGMTable[GetItemIndex(bur->weaponBefore)], 0x100);
         return;
     }
 
     //Demon King Music Switch
-    for (int i = 0; i < (DemonKingMusicSwitchTable_Count); i++){
+    int count = DemonKingMusicSwitchTable_Count;
+    for (int i = 0; i < count; i++){
         if (pid == DemonKingMusicSwitchTable_Unit[i])
-        {
+        {   
             if (CheckFlag(DemonKingMusicSwitchTable_Flag[i]) == true)
             {
                 EfxOverrideBgm(DemonKingMusicSwitchTable_BGM[i], 0x100);
                 return;
             }
-            SetFlag(DemonKingMusicSwitchTable_Unit[i]);
+            SetFlag(DemonKingMusicSwitchTable_Flag[i]);
         }
     }
 

@@ -14,8 +14,8 @@ SHORT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 #define SetStaffBGM(item, song) "PUSH; ORG StaffBGMTable + (item * 2); SHORT song; POP"
 
 ALIGN 4
-DemonKingMusicSwitchTable_Count: //Number of entries in the 3 following tables, please notice this is the amount of zeroes in the tables to avoid any off by one errors
-BYTE 0x6
+DemonKingMusicSwitchTable_Count: //Number of entries in the 3 following tables, 
+BYTE 0x6                         //please notice this is the amount of zeroes in the tables to avoid any off by one errors
 
 ALIGN 4
 DemonKingMusicSwitchTable_Unit:
