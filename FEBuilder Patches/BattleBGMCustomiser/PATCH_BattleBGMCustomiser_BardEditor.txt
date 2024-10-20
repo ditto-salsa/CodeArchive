@@ -1,0 +1,17 @@
+NAME=Battle BGM Customiser (Bard BGM Editor)
+NAME.en=Battle BGM Customiser (Bard BGM Editor)
+NAME.zh=Battle BGM Customiser (Bard BGM Editor)
+INFO=Edit the BGM that plays when refreshing with a Bard.\r\nThe unit/class of the Bard must have the Play bitflag in character/class data set,\r\neven if using SkillSystems and the Dance skill.\r\n
+INFO.en=Edit the BGM that plays when refreshing with a Bard.\r\nThe unit/class of the Bard must have the Play bitflag in character/class data set,\r\neven if using SkillSystems and the Dance skill.\r\n
+INFO.zh=Edit the BGM that plays when refreshing with a Bard.\r\nThe unit/class of the Bard must have the Play bitflag in character/class data set,\r\neven if using SkillSystems and the Dance skill.\r\n
+
+IF:0x726AC=0x78 0x47 0xC0 0x46
+
+TYPE=ADDR
+TAG=#SOUND
+
+ADDRESS=$GREP4ENDA 0xD1 0x77 0x0D 0x17 0x70 0xD1 0x77 0x0D 0x17 0x70 0xEE 0xEE 0xEE 0xEE 0xEE 0x70
+
+ADDRESS_TYPE=SONG
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

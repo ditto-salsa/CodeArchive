@@ -1,0 +1,23 @@
+NAME=Battle BGM Customiser (Ignore Sacred Weapon BGM Editor)
+NAME.en=Battle BGM Customiser (Ignore Sacred Weapon BGM Editor)
+NAME.zh=Battle BGM Customiser (Ignore Sacred Weapon BGM Editor)
+INFO=Edit which characters negate the playing of Sacred Weapon BGM.\r\nDefault is 0x40 + 0x6C Lyon and 0xBE Fomortiis.\r\nA unit will ignore the playing of Sacred Weapon BGM if there is a value of 1 for them here.\r\n
+INFO.en=Edit which characters negate the playing of Sacred Weapon BGM.\r\nDefault is 0x40 + 0x6C Lyon and 0xBE Fomortiis.\r\nA unit will ignore the playing of Sacred Weapon BGM if there is a value of 1 for them here.\r\n
+INFO.zh=Edit which characters negate the playing of Sacred Weapon BGM.\r\nDefault is 0x40 + 0x6C Lyon and 0xBE Fomortiis.\r\nA unit will ignore the playing of Sacred Weapon BGM if there is a value of 1 for them here.\r\n
+
+IF:0x726AC=0x78 0x47 0xC0 0x46
+
+TYPE=STRUCT
+TAG=#SOUND
+
+ADDRESS=$GREP4ENDA 0xD1 0x77 0x0D 0x17 0x70 0xD1 0x77 0x0D 0x17 0x70 0xEE 0xEE 0xEE 0xEE 0xEE 0x10
+
+DATASIZE=1
+
+DATACOUNT=0x100
+
+LISTNAME=UNIT
+
+B0=Ignore Sacred Weapon BGM
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

@@ -1,0 +1,23 @@
+NAME=Battle BGM Customiser (Demon King Music Switch (Unit) Editor)
+NAME.en=Battle BGM Customiser (Demon King Music Switch (Unit) Editor)
+NAME.zh=Battle BGM Customiser (Demon King Music Switch (Unit) Editor)
+INFO=Edit which characters will have the Demon King Music Switch effect applied to the BGM when fighting them.\r\nThe way this code works is by using several editors to edit the 6 entries.\r\nFor example, the data for Fomortiis is placed in Entry 0 across the 3 editors.\r\n
+INFO.en=Edit which characters will have the Demon King Music Switch effect applied to the BGM when fighting them.\r\nThe way this code works is by using several editors to edit the 6 entries.\r\nFor example, the data for Fomortiis is placed in Entry 0 across the 3 editors.\r\n
+INFO.zh=Edit which characters will have the Demon King Music Switch effect applied to the BGM when fighting them.\r\nThe way this code works is by using several editors to edit the 6 entries.\r\nFor example, the data for Fomortiis is placed in Entry 0 across the 3 editors.\r\n
+
+IF:0x726AC=0x78 0x47 0xC0 0x46
+
+TYPE=STRUCT
+TAG=#SOUND
+
+ADDRESS=$GREP4ENDA 0xD1 0x77 0x0D 0x17 0x70 0xD1 0x77 0x0D 0x17 0x70 0xEE 0xEE 0xEE 0xEE 0xEE 0x30
+
+DATASIZE=1
+
+DATACOUNT=6
+
+LISTNAME=B0
+
+B0:UNIT=Unit
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

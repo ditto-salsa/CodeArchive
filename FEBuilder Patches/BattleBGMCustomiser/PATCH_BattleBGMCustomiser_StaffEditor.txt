@@ -1,0 +1,23 @@
+NAME=Battle BGM Customiser (Staff Editor)
+NAME.en=Battle BGM Customiser (Staff Editor)
+NAME.zh=Battle BGM Customiser (Staff Editor)
+INFO=Despite this menu showing all items,\r\nthe song defined here will only play during staff use,\r\nand the entire item table is shown for convinience of custom staves.\r\n
+INFO.en=Despite this menu showing all items,\r\nthe song defined here will only play during staff use,\r\nand the entire item table is shown for convinience of custom staves.\r\n
+INFO.zh=Despite this menu showing all items,\r\nthe song defined here will only play during staff use,\r\nand the entire item table is shown for convinience of custom staves.\r\n
+
+IF:0x726AC=0x78 0x47 0xC0 0x46
+
+TYPE=STRUCT
+TAG=#SOUND
+
+ADDRESS=$GREP4ENDA 0xD1 0x77 0x0D 0x17 0x70 0xD1 0x77 0x0D 0x17 0x70 0xEE 0xEE 0xEE 0xEE 0xEE 0x20
+
+DATASIZE=2
+
+DATACOUNT=0x100
+
+LISTNAME=ITEM
+
+W0:SONG=SongID (FFFF=Continuous)
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

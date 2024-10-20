@@ -1,0 +1,17 @@
+NAME=Battle BGM Customiser (Arena BGM Editor)
+NAME.en=Battle BGM Customiser (Arena BGM Editor)
+NAME.zh=Battle BGM Customiser (Arena BGM Editor)
+INFO=Edit the BGM that plays when fighting in the Arena.\r\n
+INFO.en=Edit the BGM that plays when fighting in the Arena.\r\n
+INFO.zh=Edit the BGM that plays when fighting in the Arena.\r\n
+
+IF:0x726AC=0x78 0x47 0xC0 0x46
+
+TYPE=ADDR
+TAG=#SOUND
+
+ADDRESS=$GREP4ENDA 0xD1 0x77 0x0D 0x17 0x70 0xD1 0x77 0x0D 0x17 0x70 0xEE 0xEE 0xEE 0xEE 0xEE 0x90
+
+ADDRESS_TYPE=SONG
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

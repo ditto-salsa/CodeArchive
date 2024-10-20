@@ -1,0 +1,26 @@
+NAME=Battle BGM Customiser (Installer)
+NAME.en=Battle BGM Customiser (Installer)
+NAME.zh=Battle BGM Customiser (Installer)
+INFO=Allows the customisation of the battle BGM function.\r\nBattle Music per faction per chapter, set in chapter data at offsets +0x1C, +0x1E and +0x20.\r\nSieglinde/Siegmund weapon specific BGM can be set per weapon and by more than 2 weapons.\r\nWhich characters that ignore the Sieglinde/Siegmund BGM is now customisable, too.\r\nStaff BGM is customisable per staff.\r\nDancer, Bard, Promotion and Arena BGMs are able to be set.\r\nContinuous Map to Battle BGM by setting battle BGM as 0xFFFF or the same as the map theme.
+INFO.en=Allows the customisation of the battle BGM function.\r\nBattle Music per faction per chapter, set in chapter data at offsets +0x1C, +0x1E and +0x20.\r\nSieglinde/Siegmund weapon specific BGM can be set per weapon and by more than 2 weapons.\r\nWhich characters that ignore the Sieglinde/Siegmund BGM is now customisable, too.\r\nStaff BGM is customisable per staff.\r\nDancer, Bard, Promotion and Arena BGMs are able to be set.\r\nContinuous Map to Battle BGM by setting battle BGM as 0xFFFF or the same as the map theme.
+INFO.zh=Allows the customisation of the battle BGM function.\r\nBattle Music per faction per chapter, set in chapter data at offsets +0x1C, +0x1E and +0x20.\r\nSieglinde/Siegmund weapon specific BGM can be set per weapon and by more than 2 weapons.\r\nWhich characters that ignore the Sieglinde/Siegmund BGM is now customisable, too.\r\nStaff BGM is customisable per staff.\r\nDancer, Bard, Promotion and Arena BGMs are able to be set.\r\nContinuous Map to Battle BGM by setting battle BGM as 0xFFFF or the same as the map theme.
+
+TYPE=EA
+TAG=#SOUND
+
+PATCHED_IF:0x726AC=0x78 0x47 0xC0 0x46
+
+EDIT_PATCH:01=PATCH_BattleBGMCustomiser_StaffEditor.txt
+EDIT_PATCH:02=PATCH_BattleBGMCustomiser_SacredWeaponEditor.txt
+EDIT_PATCH:03=PATCH_BattleBGMCustomiser_IgnoreSacredBGMEditor.txt
+EDIT_PATCH:04=PATCH_BattleBGMCustomiser_DancerEditor.txt
+EDIT_PATCH:05=PATCH_BattleBGMCustomiser_PromotionEditor.txt
+EDIT_PATCH:06=PATCH_BattleBGMCustomiser_BardEditor.txt
+EDIT_PATCH:07=PATCH_BattleBGMCustomiser_ArenaEditor.txt
+EDIT_PATCH:08=PATCH_BattleBGMCustomiser_DemonKingUnitEditor.txt
+EDIT_PATCH:09=PATCH_BattleBGMCustomiser_DemonKingSongEditor.txt
+EDIT_PATCH:0A=PATCH_BattleBGMCustomiser_DemonKingFlagEditor.txt
+
+EA=Installer.event
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061
