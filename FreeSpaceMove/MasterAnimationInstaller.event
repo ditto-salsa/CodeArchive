@@ -1,0 +1,30 @@
+//Repoint animation table
+PUSH
+	ORG $59BD8
+	POIN ClassAnimTable
+	ORG $5A600
+	POIN ClassAnimTable
+	ORG $5A694
+	POIN ClassAnimTable
+	ORG $5A82C
+	POIN ClassAnimTable
+	ORG $6F6A8
+	POIN ClassAnimTable
+	ORG $70940
+	POIN ClassAnimTable
+	ORG $70A60
+	POIN ClassAnimTable
+POP
+
+//New animation table
+#define AnimEntryCount 256 //change if expanding table. vanilla has 0xC9 entries, can go up to 0xFFFF (decimal 65536).
+
+ALIGN 4
+ClassAnimTable:
+FILL 0x20 * AnimEntryCount
+
+#define AnimTableEntry(index) "ORG ClassAnimTable - 0x20 + (index * 0x20)"
+
+#define BattleSpriteTable ClassAnimTable //for pal2ea
+
+//Installed animations go here:

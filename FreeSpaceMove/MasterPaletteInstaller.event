@@ -1,0 +1,27 @@
+//Master installer because the other ones are auto generated
+
+//Repoint palette table
+PUSH
+	ORG $59BFC
+	POIN NewPaletteTable
+	ORG $59CD0
+	POIN NewPaletteTable
+	ORG $59D24
+	POIN NewPaletteTable
+	ORG $5A7AC
+	POIN NewPaletteTable
+	ORG $5A928
+	POIN NewPaletteTable
+POP
+
+//New palette table
+#define PaletteEntryCount 0xFF //0x6C entries in vanilla
+
+ALIGN 4
+WORD PaletteEntryCount
+NewPaletteTable:
+FILL 0x10 * PaletteEntryCount
+
+#define PaletteTable "(NewPaletteTable - 4)"
+
+#include "Palette Setup.event"

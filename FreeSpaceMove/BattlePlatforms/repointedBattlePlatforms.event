@@ -1,0 +1,15 @@
+PUSH; ORG 0x51E48; POIN NewBattlePlatformPointerTable; ORG 0x5AAD0; POIN NewBattlePlatformPointerTable; POP //Repointing
+
+#define BattlePlatformsCount 0x73 //Vanilla count
+#define BattlePlatformsTotalDataSize 0x432D4 //Presumably vanilla value
+
+ALIGN 4
+WORD BattlePlatformsCount (BattlePlatformsTotalDataSize/3) //Header - no idea why it's like this
+NewBattlePlatformPointerTable:
+FILL BattlePlatformsCount*24
+
+#define BPEntry(entry,image,palette) "PUSH; ORG NewBattlePlatformPointerTable+(entry*24)+12; POIN image palette; POP"
+
+// Add more platforms here, starting with entry 0x73
+
+#include "VanillaBattlePlatforms.event"
