@@ -1,0 +1,4 @@
+00=Player
+40=Ally
+80=Enemy
+FF=Ignore

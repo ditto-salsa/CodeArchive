@@ -1,0 +1,30 @@
+#ifndef ChangeDescByParameters_HAX
+#define ChangeDescByParameters_HAX
+
+// Change Desc By Parameters - ditto
+#include "ChangeDescByParameters.lyn.event"
+ALIGN 4
+
+//Values to use to ignore a parameter:
+//UnitID, ClassID, flagID - 0
+//allegiance, chapterID - 0xFF
+//asmFunc - 0
+//UnitID for UnitDescParams and ClassID for ClassDescParams and ItemID for ItemDescParams will never be ignored.
+//If textID is 0, the message for no textID will display.
+
+WORD 0x74696E55 0x63736544 0x61726150 0x736D
+UnitDescParams:
+//BYTE unitID classID itemID allegiance chapterID 0 0 0; POIN asmFunc|1; SHORT flagID textID
+WORD 0 0 0 0 //Terminator
+
+WORD 0x73616C43 0x73654473 0x72615063 0x736D61
+ClassDescParams:
+//BYTE unitID classID itemID allegiance chapterID 0 0 0; POIN asmFunc|1; SHORT flagID textID
+WORD 0 0 0 0 //Terminator
+
+WORD 0x6D657449 0x63736544 0x61726150 0x736D
+ItemDescParams:
+//BYTE unitID classID itemID allegiance chapterID 0 0 0; POIN asmFunc|1; SHORT flagID textID
+WORD 0 0 0 0 //Terminator
+
+#endif //ChangeDescByParameters_HAX

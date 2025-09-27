@@ -1,0 +1,32 @@
+NAME=Change Descriptions By Parameters (Unit Description Editor)
+NAME.en=Change Descriptions By Parameters (Unit Description Editor)
+NAME.zh=Change Descriptions By Parameters (Unit Description Editor)
+INFO=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+INFO.en=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+INFO.zh=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+
+IF:0x88A00=0x78 0x47 0xC0 0x46
+
+TYPE=STRUCT
+TAG=#ENGINE
+
+ADDRESS=$GREP4ENDA 0x55 0x6E 0x69 0x74 0x44 0x65 0x73 0x63 0x50 0x61 0x72 0x61 0x6D 0x73 0x00 0x00
+
+DATASIZE=16
+
+DATACOUNT=$GREP16 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+LISTNAME=$B0:UNIT
+
+B0:UNIT=Unit ID
+B1:CLASS=Class ID (00=IGNORE)
+B2:ITEM=Item ID (00=IGNORE)
+B3:$COMBO combo.Allegiance.txt=Allegiance (FF=IGNORE)
+B4:MAP=Chapter ID (FF=IGNORE)
+B5=00
+W6=00
+P8:ASM=Arbitrary Function (00=IGNORE)
+W10:FLAG=Flag ID (00=IGNORE)
+W12:TEXT=Text ID
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061

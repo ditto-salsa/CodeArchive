@@ -1,0 +1,20 @@
+NAME=Change Descriptions By Parameters (Installer)
+NAME.en=Change Descriptions By Parameters (Installer)
+NAME.zh=Change Descriptions By Parameters (Installer)
+INFO=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+INFO.en=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+INFO.zh=Change Unit, Class and Item descriptions by parameters matching values in tables here.\r\nChecks unitID, classID, itemID, if unit is allegiance, if playing chapterID, \r\nif arbitrary function returns true, if a flag is set and changes text if all requirements pass. \r\nNull the need for a requirement to pass by setting it to 0.
+
+
+TYPE=EA
+TAG=#ENGINE
+
+PATCHED_IF:0x88A00=0x78 0x47 0xC0 0x46
+
+EDIT_PATCH:01=PATCH_ChangeDescByParameters_UnitDescParams.txt
+EDIT_PATCH:02=PATCH_ChangeDescByParameters_ClassDescParams.txt
+EDIT_PATCH:03=PATCH_ChangeDescByParameters_ItemDescParams.txt
+
+EA=Installer.event
+
+AUTHOR=ditto https://feuniverse.us/t/dittos-code-code-ditto/27061
