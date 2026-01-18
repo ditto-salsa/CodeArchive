@@ -1,0 +1,43 @@
+// Speedphone Summoning System
+// By Ditto
+
+#include EAstdlib.event
+#include "DittoASMDefs.event"
+#include "ProcDefinitions.event"
+#include "PopupDefinitions.event" // credit to stan (taken from PopupRework)
+
+// Initial free space offset in BL range
+#define FreeSpaceBLRange 0x1C1EC0
+
+// For Brain Juice - addresses of the index in the pointer list for the item (default 0xFF but for speedphone's ROM so,)
+#define ItemBrainJuiceUsability_Addr 0x167094
+#define ItemBrainJuiceEffect_Addr 0xBD3168
+#define ItemBrainJuice_ItemTableAddr 0x10CA1E4 // this is item 0xFF's offset
+
+// ASMCs
+ThumbFunc(AllowUnitToSummon)
+#incbin "bin/AllowUnitToSummon.bin"
+
+ThumbFunc(DisallowUnitToSummon)
+#incbin "bin/DisallowUnitToSummon.bin"
+
+ThumbFunc(IsUnitASummon)
+#incbin "bin/IsUnitASummon.bin"
+
+ThumbFunc(MarkUnitAsSummon)
+#incbin "bin/MarkUnitAsSummon.bin"
+
+ThumbFunc(UnMarkUnitAsSummon)
+#incbin "bin/UnMarkUnitAsSummon.bin"
+
+ThumbFunc(RemoveAllSummons)
+#incbin "bin/RemoveAllSummons.bin"
+
+ThumbFunc(SetHasSummonedBit)
+#incbin "bin/SetHasSummonedBit.bin"
+
+ThumbFunc(UnsetHasSummonedBit)
+#incbin "bin/UnsetHasSummonedBit.bin"
+
+// All other summoning related things
+#include "Summoning.event"

@@ -1,0 +1,18 @@
+NAME=Speedphone Summoning (Installer)
+NAME.en=Speedphone Summoning (Installer)
+NAME.zh=Speedphone Summoning (Installer)
+INFO=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+INFO.en=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+INFO.zh=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+
+TYPE=EA
+TAG=#ENGINE
+
+PATCHED_IF:0x25C70=0x00 0x48 0x00 0x47
+
+EDIT_PATCH:01=PATCH_SpeedphoneSummoning_SummonDataTable.txt
+EDIT_PATCH:02=PATCH_SpeedphoneSummoning_SpecialEventPerUnit.txt
+
+EA=_Installer.event
+
+AUTHOR=ditto

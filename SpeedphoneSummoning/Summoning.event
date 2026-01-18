@@ -1,0 +1,170 @@
+PUSH
+ORG 0x59C608 // for the item menu trade
+POIN NewTradeUsability
+ORG 0xBD2430 // for the unit action menu trade
+POIN NewTradeUsability
+POP
+PROTECT 0x59C608
+PROTECT 0xBD2430
+
+ThumbFunc(NewTradeUsability)
+#incbin "bin/NewTradeUsability.bin"
+
+// New Summon Usability and Target list iterable hook
+PUSH
+ORG 0xBD21CC
+POIN NewSummonUsability
+POP
+PROTECT 0xBD21CC
+
+ThumbFunc(NewSummonUsability)
+#incbin "bin/NewSummonUsability.bin"
+POIN GetSummonDataForUnit
+
+PUSH
+ORG 0x25C70
+jumpToHack(r0, SummonTargetListIterableHook)
+POP
+PROTECT 0x25C70
+
+ThumbFunc(SummonTargetListIterableHook)
+#incbin "bin/SummonTargetListIterableHook.bin"
+POIN GetSummonDataForUnit
+
+
+
+// Internal utility functions
+ThumbFunc(GetSummonDataForUnit)
+#incbin "bin/GetSummonDataForUnit.bin"
+POIN SummonDataTable
+
+ThumbFunc(GetSummonersSummonData)
+#incbin "bin/GetSummonersSummonData.bin"
+POIN SummonDataTable
+
+SummonDataTable:
+FILL 256*12
+#define SummonEntry(charID, def, onSummon, onDeath) "PUSH; ORG SummonDataTable+(charID*12); POIN def onSummon onDeath; POP"
+
+
+
+// MapAnim related stuff (is actually the unit def function hook)
+PUSH
+ORG 0x7AD1C
+jumpToHack(r0, NewGenerateSummonUnitDef)
+POP
+PROTECT 0x7AD1C
+
+ThumbFunc(NewGenerateSummonUnitDef)
+#incbin "bin/NewGenerateSummonUnitDef.bin"
+POIN GetSummonDataForUnit
+
+
+
+// Add a new call to the summoning map anim proc script to call the creation summon event
+PUSH
+ORG 0x9A33BC
+POIN SummonMapAnimProcAdditional
+POP
+PROTECT 0x9A33BC
+
+SummonMapAnimProcAdditional: // ProcScr_MapAnimEnd but with an extra routine call at the end
+PROC_CALL_ROUTINE(0x7A985)
+PROC_WHILE_ROUTINE(0xD1B1)
+PROC_CALL_ROUTINE(0x7AA01)
+PROC_WHILE_EXISTS(0x9A2C80)
+PROC_CALL_ROUTINE(0x7BBB9)
+PROC_SLEEP(1)
+PROC_CALL_ROUTINE(0x7A709)
+PROC_YIELD
+PROC_CALL_ROUTINE(0x7AA4D)
+PROC_YIELD
+PROC_CALL_ROUTINE(0x7A72D)
+PROC_SLEEP(8)
+PROC_CALL_ROUTINE(0x7A795)
+PROC_YIELD
+PROC_CALL_ROUTINE(0x7A941)
+PROC_SLEEP(2)
+PROC_CALL_ROUTINE(0x15371)
+PROC_CALL_ROUTINE(0x7A80D)
+PROC_CALL_ROUTINE(RunSummonEventOnCreate)
+PROC_END
+
+ThumbFunc(RunSummonEventOnCreate)
+#incbin "bin/RunSummonEventOnCreate.bin"
+POIN GetSummonDataForUnit
+
+
+
+// For the summon's event on death
+PUSH
+ORG 0x183FC
+jumpToHack(r1, NewUnitKill)
+POP
+PROTECT 0x183FC
+
+ThumbFunc(NewUnitKill)
+#incbin "bin/NewUnitKill.bin"
+POIN GetSummonersSummonData
+
+
+// Summoning gives no EXP anymore
+PUSH
+ORG 0x32564
+BL(SkipGiving10ExpWhenSummoning)
+
+ORG FreeSpaceBLRange
+SkipGiving10ExpWhenSummoning:
+SHORT 0xB500 // push {r14}
+SHORT 0x1C01 // mov r1, r0
+SHORT 0x4802 // ldr r0, =0x0859BAC4
+BL(0x2CE0) // bl Proc_StartBlocking
+SHORT 0xBC01 // pop {r0}
+SHORT 0x4700 // bx r0
+SHORT 0x46C0
+POIN 0x59BAC4
+#undef FreeSpaceBLRange
+#define FreeSpaceBLRange CURRENTOFFSET
+
+POP
+PROTECT 0x32564
+
+// Brain Juice
+PUSH
+ORG ItemBrainJuiceUsability_Addr
+POIN (BrainJuiceItemUsability &~ 1)
+
+ORG ItemBrainJuiceEffect_Addr
+POIN (BrainJuiceItemEffect &~ 1)
+
+ORG ItemBrainJuice_ItemTableAddr+0x1E
+BYTE 0x10
+POP
+
+ThumbFunc(BrainJuiceItemUsability)
+#incbin "bin/BrainJuiceItemUsability.bin"
+
+ThumbFunc(BrainJuiceItemEffect)
+#incbin "bin/BrainJuiceItemEffect.bin"
+POIN BrainJuicePopupScr
+
+BrainJuicePopupScr:
+Popup_SetSound(0x2BD)
+Popup_SetColour(0x2)
+Popup_UnitName
+Popup_SetColour(0x0)
+Popup_StringPtr(BrainJuicePopupString1)
+Popup_SetColour(0x4)
+Popup_StringPtr(BrainJuicePopupString2)
+Popup_SetColour(0x0)
+Popup_StringPtr(BrainJuicePopupString3)
+Popup_End
+
+BrainJuicePopupString1:
+String(" can now "); BYTE 0; ALIGN 4
+
+BrainJuicePopupString2:
+String("Summon"); BYTE 0; ALIGN 4
+
+BrainJuicePopupString3:
+String("!"); BYTE 0; ALIGN 4

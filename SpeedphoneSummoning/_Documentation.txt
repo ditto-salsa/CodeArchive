@@ -1,0 +1,82 @@
+ROM Unit data bytes being repurposed:
+	+0x23:
+		Setting bit 0x80 will disable the unit from being able to trade.
+		Setting bit 0x40 will make this unit unable to summon EVER
+		
+RAM Unit data bytes being repurposed:
+	+0xE:
+		Bit 0x10 is used for marking if a unit has summoned this chapter; this is unset automatically on chapter end as far as I can tell so no need for a mandatory ASMC call every end event.
+	+0xF:
+		Bit 0x20 is used for stuff to do with the way I've absolutely mangled the UnitKill function; 
+			if this bit is set, in UnitKill the unit is erased (not dead flagged) regardless of faction or w/e
+		Bits 0x40 and 0x80 are used for "Is a Summon*er*" and "Is a Summon" respectively.
+
+ASMCs:
+Returns are in sC unless specified otherwise; Nothing means sC is untouched.
+All ROM unit IDs passed as parameters support special values - (all s16) 0 for leader unit, -1 for active unit, -2 for unit at coords in slot 0xB, and -3 for unit ID in slot 2.
+
+	AllowUnitToSummon:
+		Parameters:
+			s1 - ROM unit ID of unit to give summon access to
+		Returns:
+			Nothing
+		-- Sets the summoner bitflag in the unit state for the unit in s1
+	
+	DisallowUnitToSummon:
+		Parameters:
+			s1 - ROM unit ID of unit to remove summon access from
+		Returns:
+			Nothing
+		-- Removes the summoner bitflag in the unit state from the unit in s1
+	
+	IsUnitASummon:
+		Parameters:
+			s1 - ROM unit ID of unit to check
+		Returns:
+			Non-zero if unit is a summon, 0 otherwise
+	
+	MarkUnitAsSummon:
+		Parameters:
+			s1 - ROM unit ID of unit to mark as a summon
+		Returns:
+			Nothing
+		-- Marks unit in s1 as a "Summon" for purposes of RemoveAllSummons
+	
+	UnMarkUnitAsSummon:
+		Parameters:
+			s1 - ROM unit ID of unit to remove the summon mark from
+		Returns:
+			Nothing
+		-- Removes the "summon" mark from the unit in s1
+	
+	RemoveAllSummons:
+		Parameters:
+			None
+		Returns:
+			Nothing
+		-- Removes all units marked as summons from RAM entirely (same as repeated DISA)
+	
+	SetHasSummonedBit:
+		Parameters:
+			s1 - ROM unit ID of unit to set the Has Summoned bit of
+		Returns:
+			Nothing
+		-- Sets the Has Summoned bit of the unit in s1
+		
+	UnsetHasSummonedBit:
+		Parameters:
+			s1 - ROM unit ID of unit to unset the Has Summoned bit of
+		Returns:
+			Nothing
+		-- Unsets the Has Summoned bit of the unit in s1
+		
+		
+SummonData structure:
+	struct SummonData {
+		const struct UnitDefinition* uDef;
+		const u16* eventOnSummon;
+		const u16* eventOnDeath;
+	}
+
+	const struct SummonData summonDataTable[0x100]; // (indexed by summoner char id!!!)
+	

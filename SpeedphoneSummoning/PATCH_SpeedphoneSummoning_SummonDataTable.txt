@@ -1,0 +1,24 @@
+NAME=Speedphone Summoning (Summon Data Table)
+NAME.en=Speedphone Summoning (Summon Data Table)
+NAME.zh=Speedphone Summoning (Summon Data Table)
+INFO=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+INFO.en=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+INFO.zh=summoning! from speedphone!\r\nIf there's a problem read /config/patch2/FE8U/SpeedphoneSummoning/_Documentation.txt or ask about it
+
+IF:0x25C70=0x00 0x48 0x00 0x47
+
+TYPE=STRUCT
+TAG=#ENGINE
+
+POINTER=$FGREP4END bin/GetSummonDataForUnit.bin
+
+DATASIZE=12
+DATACOUNT=256
+
+LISTNAME=UNIT
+
+P0=Unit Def
+P4:EVENT=Event on Summon
+P8:EVENT=Event on Death
+
+AUTHOR=ditto
