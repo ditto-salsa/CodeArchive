@@ -1,0 +1,137 @@
+/*
+	AffinityGetter by ditto
+
+	This engine hack aims to allow easy modification of affinities for characters without having to change character IDs.
+	It does this by running functions from a list, akin to skillsys' calc loops.
+	
+	Each function is given two parameters:
+		
+		r0 - Unit pointer of the unit you're getting the affinity for
+		r1 - Pointer to a word of stack space
+	
+	And each function returns 0 if the loop is to continue, non-zero means the loop will terminate.
+	
+	The affinity ID itself is written to the stack space given as a parameter to the function, and this affinity ID will be read and used when the loop terminates.
+	So you do not need to set it unless you are returning non-zero as well.
+	
+	(A C-style header would be `int AffinityFunc(struct Unit* unit, int* affinity)`)
+	
+*/
+#include "DittoASMDefs.event"
+
+#ifndef FreeSpaceBLRange
+	#define FreeSpaceBLRange 0x1C201C // !! Change this to match your in BL range freespace !! (which is usually 0x1C1EC0 if using an existing SkillSystems installed ROM)
+#endif
+
+#define AffinityGetter_IconRework_Installed // If this is defined, this will account for hooks related to (presumably) IconRework 
+
+ALIGN 4; AffinityFunctionList: // Make sure that the THUMB bit is set when calling THUMB code!
+// POIN MyAffinityFunction
+POIN AffinityFromCharData // Gets the affinity from the character data and terminates the loop unconditionally, so probably keep this for last.
+WORD 0 // Terminator
+
+
+
+// --- Wizardry zone --- //
+
+PUSH
+
+// Hooks into vanilla code
+
+// in GetUnitAffinityIcon
+ORG 0x286BE
+BL(GotoAffinityGetter)
+//ORG 0x286C6
+//SHORT 0x46C0 // nop
+
+// in GetCharacterAffinityIcon
+ORG 0x286D6
+BL(GotoAffinityGetter_WithCharID_Trampoline)
+SHORT 0x46C0 // nop
+#ifdef AffinityGetter_IconRework_Installed
+ORG 0x286E0
+SHORT 0x3801 // sub r0, r0, #1
+#endif
+
+// in DrawSupportSubScreenUnitPartnerText
+ORG 0xA1D94
+#ifdef AffinityGetter_IconRework_Installed
+jumpToHack(r3, Hook_DrawSupportSubScreenUnitPartnerText)
+#else
+BL(GotoAffinityGetter_WithCharID_Trampoline)
+SHORT 0x1C01 // mov r1, r0
+SHORT 0xE000 // b 0x080A1D9E
+#endif
+
+// in GetPidStats (BWL_GetEntry)
+ORG 0xA4D0A
+BL(GotoAffinityGetter_WithCharID_Trampoline)
+SHORT 0x46C0 // nop
+
+// in GetUnitSupportBonuses
+ORG 0x28642
+SHORT 0x1C28 // mov r0, r5
+BL(GetUnitSupportBonuses_GotoAffinityGetter)
+ORG 0x28658
+SHORT 0x1C38 // mov r0, r7
+BL(GetUnitSupportBonuses_GotoAffinityGetter)
+
+// in DisplaySupportList
+#ifdef AffinityGetter_IconRework_Installed
+ORG 0x87708
+jumpToHack(r3, Hook_DisplaySupportList)
+#endif
+
+
+
+// In BL Range freespace
+ORG FreeSpaceBLRange
+ALIGN 4
+
+AffinityGetterCallHack:
+SHORT 0x4901 // ldr r1, AffinityGetter
+BL(0xD18C4) // bl call_via_r1
+SHORT 0xBD00 // pop {r15}
+POIN AffinityGetter
+
+GotoAffinityGetter:
+SHORT 0xB500 // push {r14}
+B(AffinityGetterCallHack)
+
+GotoAffinityGetter_WithCharID_Trampoline: // takes char ID in r0, goes to getter and returns affinity in r0
+jumpToHack(r3, GotoAffinityGetter_WithCharID)
+
+GetUnitSupportBonuses_GotoAffinityGetter:
+SHORT 0xB500 // push {r14}
+BL(GotoAffinityGetter)
+SHORT 0x1C01 // mov r1, r0
+SHORT 0x1C30 // mov r0, r6
+SHORT 0xBD00 // pop {r15}
+
+#undef FreeSpaceBLRange
+#define FreeSpaceBLRange CURRENTOFFSET
+
+POP
+
+
+
+// in normal freespace
+ThumbFunc(AffinityGetter)
+#incbin "asm/AffinityGetter.bin"
+POIN AffinityFunctionList
+
+ThumbFunc(AffinityFromCharData)
+#incbin "asm/AffinityFromCharData.bin"
+
+ThumbFunc(GotoAffinityGetter_WithCharID)
+#incbin "asm/GotoAffinityGetter_WithCharID.bin"
+POIN AffinityGetter
+
+#ifdef AffinityGetter_IconRework_Installed
+ThumbFunc(Hook_DrawSupportSubScreenUnitPartnerText)
+#incbin "asm/Hook_DrawSupportSubScreenUnitPartnerText.bin"
+POIN GotoAffinityGetter_WithCharID_Trampoline
+
+ThumbFunc(Hook_DisplaySupportList)
+#incbin "asm/Hook_DisplaySupportList.bin"
+#endif
