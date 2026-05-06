@@ -1,0 +1,36 @@
+#include "DittoASMDefs.event"
+
+#define _TextTable 0xB808AC
+#define setText(id, ptr) "PUSH; ORG _TextTable+(id*4); POIN ptr|0x80000000; POP"
+#define PerfectLuckMenuItemName 0x1335 // Legend of the Dragon God
+#define PerfectLuckMenuItemHelp 0x1336 // Royal Palace of Silezha
+
+ALIGN 4
+{
+Name:
+#incbin "Text.bin"
+PUSH; ORG Name+$8; Help: POP
+setText(PerfectLuckMenuItemName, Name)
+setText(PerfectLuckMenuItemHelp, Help)
+}
+
+PUSH
+ORG 0x29244
+jumpToHack(r0, UpdateBattleStatsHook)
+POP
+
+ThumbFunc(UpdateBattleStatsHook)
+#incbin "UpdateBattleStatsHook.bin"
+
+PUSH
+ORG 0xB95AFC
+POIN NewMapMenuItems
+POP
+
+ALIGN 4; NewMapMenuItems:
+#incbin "MapMenuItems1.bin"
+WORD 0; SHORT PerfectLuckMenuItemName PerfectLuckMenuItemHelp; BYTE 0 0x6D 0 0; POIN 0x4A8F8|1 0 PerfectLuckMenuItemEffect 0 0 0
+#incbin "MapMenuItems2.bin"
+
+ThumbFunc(PerfectLuckMenuItemEffect)
+#incbin "PerfectLuckMenuItemEffect.bin"
